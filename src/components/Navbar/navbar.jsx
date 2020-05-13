@@ -4,12 +4,26 @@ import LanguageChoice from "./languagechoice";
 
 const Navbar = () => {
   return (
-    <div className="row">
-      <Link to="/">Home</Link>
-      <Link to="/about">About</Link>
-      <Link to="/works">Works</Link>
-      <LanguageChoice />
-    </div>
+    <nav className="navbar navbar-inverse">
+      <div className="container-fluid">
+        <div className="navbar-header">
+          <Link to="/">Home</Link>
+        </div>
+        <ul className="nav row">
+          <li className="mr-5">
+            <Link to="/about">About</Link>
+          </li>
+          <li>
+            <Link to="/works">Works</Link>
+          </li>
+        </ul>
+        <ul className="nav navbar-nav navbar-right">
+          <li>
+            <LanguageChoice />
+          </li>
+        </ul>
+      </div>
+    </nav>
   );
 };
 
