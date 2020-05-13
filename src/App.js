@@ -1,26 +1,55 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import "./App.css";
+import Navbar from "./components/Navbar/navbar";
+import About from "./components/About/about";
+import Home from "./components/Home/home";
+import Works from "./components/Works/works";
+import { IntlProvider } from "react-intl";
 
-function App() {
+import messagesFr from "./assets/translation/fr";
+import messagesEn from "./assets/translation/en";
+import LanguageContext from "./components/Context/LanguageContext";
+
+const messages = {
+  fr: messagesFr,
+  en: messagesEn,
+}; // On créé un objet qui contient toutes nos traductions, avec un index par langue
+
+console.log(messages);
+console.log(LanguageContext);
+
+const App = () => {
+  const [language, setLanguage] = useState("en");
+  //La langue par défaut de notre app (doit correspondre à un des index de la variables messages ci dessus).
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <LanguageContext.provider
+      value={{
+        language,
+        setEN: () => setLanguage("en"),
+        setFR: () => setLanguage("fr"),
+      }}
+    >
+      <Router>
+        <div className="container">
+          <IntlProvider locale={language} messages={messages[language]}>
+            <Navbar />
+            <Switch>
+              <Route path="/about">
+                <About />
+              </Route>
+              <Route path="/works">
+                <Works />
+              </Route>
+              <Route exact path="/">
+                <Home />
+              </Route>
+            </Switch>
+          </IntlProvider>
+        </div>
+      </Router>
+    </LanguageContext.provider>
   );
-}
+};
 
 export default App;
